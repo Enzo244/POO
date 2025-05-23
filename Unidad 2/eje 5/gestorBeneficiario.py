@@ -7,7 +7,7 @@ class gestorBene:
         self.__listaBeneficiario=[]
 
     def cargar(self):
-        with open("eje 5/beneficiarios.csv" ,'r', encoding="utf-8") as archivoBeneficiario:
+        with open("Unidad 2/eje 5/beneficiarios.csv" ,'r', encoding="utf-8") as archivoBeneficiario:
             reader= csv.reader(archivoBeneficiario , delimiter=";")
             next(reader)
             for ben in reader:
@@ -32,9 +32,18 @@ class gestorBene:
         print(f"importe: {importe}")
         print(f"importe total que debe disponer la Secretaría para el pago de dicha Beca es: {cont*importe}")
 
-    def buscarBeneficiario(self,dni):
-        i=0
-        while i< len(self.__listaBeneficiario) and self.__listaBeneficiario[i].getDni() != dni :
-            i+=1
-        if i< len(self.__listaBeneficiario):
-            return self.__listaBeneficiario[i].getIdBeca()
+    def contarIdBecas(self,dni):
+        cont=0
+        for ben in self.__listaBeneficiario:
+            
+            if ben.getDni() == dni:
+                Nom= ben.getNombre()
+                app= ben.getApellido()
+                cont+=1
+        if cont == 1:
+            print("el benficiario tiene solo una beca")
+        elif cont > 1:
+            print(f"el beneficiario {Nom} {app} tiene mas de una beca")
+        else:
+            "no se encontro"
+            

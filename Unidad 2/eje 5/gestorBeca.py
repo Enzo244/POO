@@ -6,7 +6,7 @@ class gestorBeca:
         self.__listaBeca= []
 
     def  cargar(self):
-        with open("eje 5/becas.csv", 'r', encoding="utf-8" ) as archivoBecas:
+        with open("Unidad 2/eje 5/becas.csv", 'r', encoding="utf-8" ) as archivoBecas:
             reader= csv.reader(archivoBecas, delimiter=";")
             next(reader)
             for bec in reader:
@@ -34,8 +34,3 @@ class gestorBeca:
             if idB== beca.getIdBeca():
                 return beca.getImporte()
             
-    def listarPorMasDeUnaBeca(self,idB):
-        for beca in self.__listaBeca:
-            if idB== self.__listaBeca.getIdBeca():
-                if idB== self.__listaBeca.getIdBeca():
-                    print(f"esta persona tiene mas de 1 beca asociada: {beca.getTipoBeca()}")

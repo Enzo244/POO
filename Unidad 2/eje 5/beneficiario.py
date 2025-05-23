@@ -26,6 +26,8 @@ class beneficiario :
 
     def getNombre(self):
         return self.__nombre
+    def getApellido(self):
+        return self.__apellido
     
     def __str__(self):
         return (f"Beneficiario [DNI: {self.__dni}, Nombre: {self.__nombre} {self.__apellido}, "

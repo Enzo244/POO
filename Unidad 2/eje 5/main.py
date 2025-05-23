@@ -31,9 +31,7 @@ if __name__ == "__main__":
             GN.informar(idBeca,importe)
         elif opcion == 'b':
             dni=input("ingrese un dni del beneficiario: ")
-            idB=GN.buscarBeneficiario(dni)
-            print(f"este es el id de beca del beneficiario: {idB}")
-            GB.listarPorMasDeUnaBeca(idB)
+            GN.contarIdBecas(dni)
         elif opcion == 'c':
             # Aquí va la funcionalidad de la opción c
             pass
