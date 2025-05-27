@@ -65,3 +65,8 @@ class gestorBiblio:
                 print(f"\nLibro '{libro}' eliminado de la biblioteca '{biblio.getNombre()}'.\n")
             else:
                 print(f"\nLibro '{libro}' no encontrado en la biblioteca\n '{biblio.getNombre()}'.\n")
+
+    def mostrarDatosPorTitulo(self,titulo):
+        i=0
+
+        while i<len(self.__lista) and self.__lista[i].g

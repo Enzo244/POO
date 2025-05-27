@@ -4,6 +4,7 @@ def menu():
      print("=== Menu de opciones ===")
      print("a.agregar un libro a la biblioteca ")
      print("b. eliminar libro")
+     print("c. mostrar datos de un libro")
      print("e. pa salir")
 
 if __name__ == "__main__":
@@ -26,7 +27,9 @@ if __name__ == "__main__":
                b=GB.buscarBiblio(biblio)
                GB.eliminarLibro(b)
 
-
+          elif opcion== "c":
+               nombre= input("ingrese un titulo de un libro: ")
+               GB.mostrarDatosPorTitulo(nombre)
           elif opcion == "e":
                print("SALIENDO DEL PROGRAMA")
           else:
