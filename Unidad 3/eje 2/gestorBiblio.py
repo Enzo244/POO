@@ -30,4 +30,38 @@ class gestorBiblio:
             print("=" * 50)
             print(f"{biblio}")
             biblio.mostrarLibros()
-            print()  # 
+            print()   
+
+    def buscarBiblio(self,biblio):
+        i=0
+        while i< len(self.__lista) and biblio != self.__lista[i].getNombre():
+            i+=1
+        if i < len(self.__lista):
+            unaBiblio= self.__lista[i]
+
+        return unaBiblio
+
+    def agregarUnLibro(self,biblio):
+            unaBiblio= self.buscarBiblio(biblio)
+            if unaBiblio:
+                a=input("ingrese Título: ")
+                b=input("ingrese Autor: ")
+                c=input("ingrese ISBN: ")
+                d=input("ingrese Género: ")
+                unLibro= libro(a,b,c,d)
+
+                unaBiblio.agregarLibro(unLibro)
+                print(f"\n✅ Libro '{a}' agregado a la biblioteca '{biblio}'.\n")
+            else:
+                print(f"\n❌ Biblioteca '{biblio}' no encontrada.\n")
+
+    def eliminarLibro(self,biblio):
+        if biblio:
+    
+            libro=input("ingrese libro a eliminar: ")
+            bandera=biblio.eliminarLibroPorTitulo(libro)
+
+            if bandera :
+                print(f"\nLibro '{libro}' eliminado de la biblioteca '{biblio.getNombre()}'.\n")
+            else:
+                print(f"\nLibro '{libro}' no encontrado en la biblioteca\n '{biblio.getNombre()}'.\n")

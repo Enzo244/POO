@@ -11,3 +11,6 @@ class libro:
         self.__genero=g
     def __str__(self):
          return f"{self.__titulo} - {self.__autor} ({self.__genero})"
+    
+    def getTitulo(self):
+        return self.__titulo

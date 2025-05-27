@@ -13,6 +13,8 @@ class biblioteca:
     def __str__(self):
         return f"Nombre: {self.__nombre}\nDirección: {self.__dirreccion}\nTeléfono: {self.__telefono}\nCantidad de libros: {len(self.__listaLibros)}\n"
 
+    def getNombre(self):
+        return self.__nombre
     
     def agregarLibro(self,unLibro):
         self.__listaLibros.append(unLibro)
@@ -24,3 +26,12 @@ class biblioteca:
             print("\n  Libros:")
             for i, libro in enumerate(self.__listaLibros, start=1):
                 print(f"    {i}. {libro}")
+    
+    def eliminarLibroPorTitulo(self,li):
+
+        for l in self.__listaLibros:
+            if li == l.getTitulo():
+                self.__listaLibros.remove(l)
+                return True
+        return False
+                
