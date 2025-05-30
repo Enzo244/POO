@@ -34,4 +34,15 @@ class biblioteca:
                 self.__listaLibros.remove(l)
                 return True
         return False
-                
+    
+    def buscarPorTitulo(self,titulo):
+        i=0
+        while i<len(self.__listaLibros) and self.__listaLibros[i].getTitulo() != titulo:
+            i+=1
+        if i<len(self.__listaLibros):
+            print(f"\n autor: {self.__listaLibros[i].getAutor()}")
+            print(f" genero: {self.__listaLibros[i].getGenero()}")
+            return True
+        else:
+            return False
+            

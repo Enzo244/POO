@@ -67,6 +67,9 @@ class gestorBiblio:
                 print(f"\nLibro '{libro}' no encontrado en la biblioteca\n '{biblio.getNombre()}'.\n")
 
     def mostrarDatosPorTitulo(self,titulo):
-        i=0
-
-        while i<len(self.__lista) and self.__lista[i].g
+        
+        for biblio in self.__lista:
+            if biblio.buscarPorTitulo(titulo):
+                print(f"\nla biblioteca '{biblio.getNombre()}'.\n")
+            else:
+                print("no se encontro")

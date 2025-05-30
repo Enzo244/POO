@@ -14,3 +14,10 @@ class libro:
     
     def getTitulo(self):
         return self.__titulo
+    
+    def getAutor(self):
+        return self.__autor
+    
+    def getGenero(self):
+        return self.__genero        
+    
