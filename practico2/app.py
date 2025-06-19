@@ -1,16 +1,12 @@
 from flask import Flask, render_template, request, redirect, flash
 from datetime import datetime, date
-from models import  Trabajador, RegistroHorario
-from config import db
 
 
 app = Flask(__name__)
-app.secret_key = 'clave-secreta'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datos.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_pyfile('config.py')
 
-db.init_app(app)
-
+from models import  db
+from models import Trabajador, RegistroHorario
 
 @app.route('/')
 def inicio():
@@ -27,7 +23,7 @@ def registrar_entrada():
         print("DNI ingresado:", dni_4)
         print("Dependencia:", dependencia)
 
-        trabajador = Trabajador.query.filter(Trabajador.legajo == str(legajo).strip()).first()
+        trabajador = Trabajador.query.filter(Trabajador.legajo == legajo.strip()).first()
 
         if trabajador:
             print("DNI real:", trabajador.dni)
@@ -111,4 +107,4 @@ def consultar_registros():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run(debug = True)

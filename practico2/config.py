@@ -1,3 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+SECRET_KEY = "GDtfDCFYjD"
+SQLALCHEMY_DATABASE_URI = 'sqlite:///datos.sqlite3'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
