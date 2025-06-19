@@ -26,16 +26,20 @@ def registrar_entrada():
         trabajador = Trabajador.query.filter(Trabajador.legajo == legajo.strip()).first()
 
         if trabajador:
+            print("Encontrado: ", trabajador.nombre, trabajador.apellido)
             print("DNI real:", trabajador.dni)
         else:
-            print("No se encontró trabajador con ese legajo.")
+            print("❌ No se encontró trabajador con ese legajo.")
+
         if not trabajador or not str(trabajador.dni).endswith(dni_4):
+            print("❌ Legajo o DNI incorrecto.")
             flash('Datos incorrectos: legajo o DNI.')
             return redirect('/entrada')
 
         hoy = date.today()
         ya_registrado = RegistroHorario.query.filter_by(fecha=hoy, idtrabajador=trabajador.id).first()
         if ya_registrado:
+            print("⚠ Ya hay entrada para hoy.")
             flash('Ya registraste entrada hoy.')
             return redirect('/entrada')
 
@@ -47,6 +51,7 @@ def registrar_entrada():
         )
         db.session.add(nuevo_registro)
         db.session.commit()
+        print("✅ Entrada registrada.")
         flash('Entrada registrada correctamente.')
         return redirect('/entrada')
 
