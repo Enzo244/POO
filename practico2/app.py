@@ -77,7 +77,6 @@ def registrar_salida():
             flash('No hay entrada registrada o ya registraste salida hoy.')
             return redirect('/salida')
 
-        # Registrar hora de salida
         registro.horasalida = datetime.now().time()
         db.session.commit()
         flash(f'Salida registrada correctamente para dependencia {registro.dependencia}.')

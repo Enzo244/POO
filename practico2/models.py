@@ -12,8 +12,8 @@ class Trabajador(db.Model):
     dni = db.Column(db.String(10), nullable=False)
     correo = db.Column(db.String(100), nullable=False)
     legajo = db.Column(db.String(20), nullable=False)
-    horas = db.Column(db.Integer, nullable=False)  # Horas semanales
-    funcion = db.Column(db.String(2), nullable=False)  # DO, AD, TE
+    horas = db.Column(db.Integer, nullable=False)  
+    funcion = db.Column(db.String(2), nullable=False)  
 
     registros = db.relationship('RegistroHorario', backref='trabajador', cascade="all, delete-orphan")
 
