@@ -1,12 +1,15 @@
 from flask import Flask, render_template, request, redirect, flash
 from datetime import datetime, date
-from models import db, Trabajador, RegistroHorario
+from models import  Trabajador, RegistroHorario
+from config import db
+
 
 app = Flask(__name__)
 app.secret_key = 'clave-secreta'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datos.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db.init_app(app)
 
 
 @app.route('/')
@@ -20,8 +23,17 @@ def registrar_entrada():
         dni_4 = request.form['dni_4']
         dependencia = request.form['dependencia']
 
-        trabajador = Trabajador.query.filter_by(legajo=legajo).first()
-        if not trabajador or not trabajador.dni.endswith(dni_4):
+        print("LEG:", legajo)
+        print("DNI ingresado:", dni_4)
+        print("Dependencia:", dependencia)
+
+        trabajador = Trabajador.query.filter(Trabajador.legajo == str(legajo).strip()).first()
+
+        if trabajador:
+            print("DNI real:", trabajador.dni)
+        else:
+            print("No se encontró trabajador con ese legajo.")
+        if not trabajador or not str(trabajador.dni).endswith(dni_4):
             flash('Datos incorrectos: legajo o DNI.')
             return redirect('/entrada')
 
@@ -99,5 +111,4 @@ def consultar_registros():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug = True)
-    
+    app.run(debug=True)
