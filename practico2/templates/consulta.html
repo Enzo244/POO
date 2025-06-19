@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <title>Consultar Registros</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+    <h1>Consultar Registros Horarios</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for msg in messages %}
+          <li>{{ msg }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Legajo:</label>
+        <input type="text" name="legajo" required><br><br>
+
+        <label>Últimos 4 del DNI:</label>
+        <input type="text" name="dni_4" maxlength="4" required><br><br>
+
+        <label>Fecha inicio:</label>
+        <input type="date" name="fecha_inicio" required><br><br>
+
+        <label>Fecha fin:</label>
+        <input type="date" name="fecha_fin" required><br><br>
+
+        <input type="submit" value="Consultar">
+    </form>
+
+    {% if registros %}
+        <h2>Registros encontrados:</h2>
+        <table border="1">
+            <tr>
+                <th>Fecha</th>
+                <th>Hora Entrada</th>
+                <th>Hora Salida</th>
+                <th>Dependencia</th>
+            </tr>
+            {% for r in registros %}
+            <tr>
+                <td>{{ r.fecha }}</td>
+                <td>{{ r.horaentrada }}</td>
+                <td>{{ r.horasalida or "-" }}</td>
+                <td>{{ r.dependencia }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>

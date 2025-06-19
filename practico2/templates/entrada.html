@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <title>Registrar Entrada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+
+</head>
+<body>
+    <h1>Registrar Entrada</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for msg in messages %}
+          <li>{{ msg }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Legajo:</label>
+        <input type="text" name="legajo" required><br><br>
+
+        <label>Últimos 4 del DNI:</label>
+        <input type="text" name="dni_4" maxlength="4" required><br><br>
+
+        <label>Dependencia:</label>
+        <select name="dependencia">
+            <option value="D01">Edificio Central</option>
+            <option value="D02">Talleres</option>
+            <option value="D03">Centro Deportivo</option>
+        </select><br><br>
+
+        <input type="submit" value="Registrar Entrada">
+    </form>
+</body>
+</html>

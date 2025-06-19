@@ -1,10 +1,103 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, flash
+from datetime import datetime, date
+from models import db, Trabajador, RegistroHorario
 
 app = Flask(__name__)
+app.secret_key = 'clave-secreta'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datos.sqlite3'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
 
 @app.route('/')
-def home():
-    return '¡Hola Flask!'
+def inicio():
+    return render_template('index.html')
+
+@app.route('/entrada', methods=['GET', 'POST'])
+def registrar_entrada():
+    if request.method == 'POST':
+        legajo = request.form['legajo']
+        dni_4 = request.form['dni_4']
+        dependencia = request.form['dependencia']
+
+        trabajador = Trabajador.query.filter_by(legajo=legajo).first()
+        if not trabajador or not trabajador.dni.endswith(dni_4):
+            flash('Datos incorrectos: legajo o DNI.')
+            return redirect('/entrada')
+
+        hoy = date.today()
+        ya_registrado = RegistroHorario.query.filter_by(fecha=hoy, idtrabajador=trabajador.id).first()
+        if ya_registrado:
+            flash('Ya registraste entrada hoy.')
+            return redirect('/entrada')
+
+        nuevo_registro = RegistroHorario(
+            fecha=hoy,
+            horaentrada=datetime.now().time(),
+            dependencia=dependencia,
+            idtrabajador=trabajador.id
+        )
+        db.session.add(nuevo_registro)
+        db.session.commit()
+        flash('Entrada registrada correctamente.')
+        return redirect('/entrada')
+
+    return render_template('entrada.html')
+
+@app.route('/salida', methods=['GET', 'POST'])
+def registrar_salida():
+    if request.method == 'POST':
+        legajo = request.form['legajo']
+        dni_4 = request.form['dni_4']
+
+        trabajador = Trabajador.query.filter_by(legajo=legajo).first()
+        if not trabajador or not trabajador.dni.endswith(dni_4):
+            flash('Datos incorrectos: legajo o DNI.')
+            return redirect('/salida')
+
+        hoy = date.today()
+        registro = RegistroHorario.query.filter_by(
+            fecha=hoy, idtrabajador=trabajador.id
+        ).filter(RegistroHorario.horasalida == None).first()
+
+        if not registro:
+            flash('No hay entrada registrada o ya registraste salida hoy.')
+            return redirect('/salida')
+
+        # Registrar hora de salida
+        registro.horasalida = datetime.now().time()
+        db.session.commit()
+        flash(f'Salida registrada correctamente para dependencia {registro.dependencia}.')
+        return redirect('/salida')
+
+    return render_template('salida.html')
+
+
+@app.route('/consulta', methods=['GET', 'POST'])
+def consultar_registros():
+    if request.method == 'POST':
+        legajo = request.form['legajo']
+        dni_4 = request.form['dni_4']
+        fecha_inicio = request.form['fecha_inicio']
+        fecha_fin = request.form['fecha_fin']
+
+        trabajador = Trabajador.query.filter_by(legajo=legajo).first()
+        if not trabajador or not trabajador.dni.endswith(dni_4):
+            flash('Datos incorrectos: legajo o DNI.')
+            return redirect('/consulta')
+
+        registros = RegistroHorario.query.filter(
+            RegistroHorario.idtrabajador == trabajador.id,
+            RegistroHorario.fecha >= fecha_inicio,
+            RegistroHorario.fecha <= fecha_fin
+        ).order_by(RegistroHorario.fecha).all()
+
+        return render_template('consulta.html', registros=registros)
+
+    return render_template('consulta.html', registros=None)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    app.run(debug = True)
+    
